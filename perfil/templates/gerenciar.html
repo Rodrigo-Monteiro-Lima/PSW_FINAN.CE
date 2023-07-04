@@ -39,25 +39,26 @@
             <div class="col-md-5">
                 <p class="fonte-destaque">Nova conta</p>
                 
-                <form action="" method="POST">
+                <form action="{% url 'cadastrar_banco' %}" method="POST" enctype='multipart/form-data'>{% csrf_token %}
                     <label>Apelido</label>
-                    <input type="text" name="apelido" class="form-control" placeholder="">
+                    <input type="text" name="nickname" class="form-control" placeholder="">
                     <br>
                     <label>Banco</label>
-                    <select name="banco" class="form-select">
+                    <select name="bank" class="form-select">
                         <option value="NU">Nubank</option>
+                        <option value="CE">Caixa Econômica</option>
                     </select>
                     <br>
                     <label>Tipo</label>
-                    <select name="tipo" class="form-select">
+                    <select name="type" class="form-select">
                         <option value="pf">Pessoa física</option>
                         <option value="pj">Pessoa jurídica</option>
                     </select>
                     <br>
                     <label>Valor</label>
-                    <input type="number" name="valor" class="form-control" placeholder="">
+                    <input type="number" name="value" class="form-control" placeholder="">
                     <br>
-                    <input type="file" placeholder="Ícone" name="icone">
+                    <input type="file" placeholder="Ícone" name="icon" required>
                     <br>
                     <br>
                     <input style="width: 100%" type="submit" class="botao-principal">
