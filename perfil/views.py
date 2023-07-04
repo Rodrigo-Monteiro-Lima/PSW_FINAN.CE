@@ -43,3 +43,11 @@ def db_register(request):
     messages.add_message(request, constants.SUCCESS, "Conta cadastrada com sucesso!")
 
     return redirect("/perfil/gerenciar/")
+
+
+def db_delete(request, id):
+    account = Account.objects.get(id=id)
+    account.delete()
+
+    messages.add_message(request, constants.SUCCESS, "Conta removida com sucesso")
+    return redirect("/perfil/gerenciar/")
