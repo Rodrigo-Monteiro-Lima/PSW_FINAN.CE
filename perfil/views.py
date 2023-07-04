@@ -2,20 +2,25 @@ from django.shortcuts import redirect, render
 from django.contrib import messages
 from django.contrib.messages import constants
 from .models import Account, Category
+from .utils import sum_total_value
 
 # Create your views here.
 
 
 def home(request):
-    return render(request, "home.html")
+    accounts = Account.objects.all()
+    total_value = sum_total_value(accounts, "value")
+    context = {
+        "accounts": accounts,
+        "total_value": total_value,
+    }
+    return render(request, "home.html", context)
 
 
 def manage(request):
     accounts = Account.objects.all()
     categories = Category.objects.all()
-    total_value = 0
-    for account in accounts:
-        total_value += account.value
+    total_value = sum_total_value(accounts, "value")
     context = {
         "accounts": accounts,
         "total_value": total_value,
