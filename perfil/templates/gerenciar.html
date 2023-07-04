@@ -12,26 +12,30 @@
     <br>
     <div class="container">
         <div class="row">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert {{ message.tags }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
             <div class="col-md-5">
                 <p class="fonte-destaque">Suas contas</p>
                 <hr>
 
                 <div class="contas">
 
-                    
-                        <div class="lista-contas-main">
-                            <span><img width="10%" src="#">&nbsp&nbspNubank</span>
-
-                            <span class="total-conta positivo ">R$ 1.800,00&nbsp&nbsp&nbsp <a href="#"><img src="{% static 'perfil/img/exit.png' %}"></a></span>
-                        </div>
-                        <br>
-                    
-                    
+                        {% for account in accounts %}
+                            <div class="lista-contas-main">
+                                <span><img width="10%" src="{{account.icon.url}}">&nbsp&nbsp{{account}}</span>
+                        
+                                <span class="total-conta positivo ">R$ {{account.value}}&nbsp&nbsp&nbsp <a href="/perfil/deletar_banco/{{account.id}}"><img src="{% static 'perfil/img/exit.png' %}"></a></span>
+                            </div>
+                            <br>
+                        {% endfor %}             
                 </div>
 
                 <hr>
                 <span class="fonte-destaque">Total:</span>
-                <span class="positivo total-conta font-destaque">R$ 1.800,00</span>
+                <span class="positivo total-conta font-destaque">R$ {{total_value}}</span>
             </div>
 
             <div class="col-md-2"></div>
