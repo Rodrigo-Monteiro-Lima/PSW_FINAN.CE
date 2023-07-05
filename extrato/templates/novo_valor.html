@@ -31,8 +31,9 @@
                         <div class="col-md">
                             <label>Categoria</label>
                             <select name="categoria" class="form-select">
-                                <option value="1">Lazer</option>
-                               
+                                {% for category in categories %}
+                                    <option value="{{ category.id }}">{{ category }}</option>
+                                {% endfor %}
                             </select>
                         </div>
                     </div>
@@ -49,7 +50,9 @@
                         <div class="col-md">
                             <label>Conta</label>
                             <select name="conta" class="form-select">
-                                <option value="1">Nubank</option>
+                                {% for account in accounts %}
+                                    <option value="{{ account.id }}">{{ account }}</option>
+                                {% endfor %}
                             </select>
                         </div>
                     </div>
