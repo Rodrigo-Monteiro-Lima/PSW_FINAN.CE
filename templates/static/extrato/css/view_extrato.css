@@ -21,6 +21,20 @@ tr{
 
 }
 
+.botao-terciario{
+
+  background-color: transparent;
+  color: white;
+  text-decoration: none;
+  border: 2px solid var(--differential-color);
+  padding: 10px;
+  border-radius: 15px;
+  width: 100%;
+  display: block;
+  text-align: center;
+
+}
+
 .botao-secundario{
 
   background-color: transparent;

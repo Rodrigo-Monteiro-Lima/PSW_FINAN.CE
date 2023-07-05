@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from django.shortcuts import redirect, render
 from extrato.models import Values
 from perfil.models import Account, Category
@@ -57,8 +57,19 @@ def new_value(request):
 def view_statement(request):
     accounts = Account.objects.all()
     categories = Category.objects.all()
-
+    account_filter = request.GET.get("account")
+    category_filter = request.GET.get("category")
+    period_filter = request.GET.get("period")
     values = Values.objects.filter(date__month=datetime.now().month)
+    print(period_filter)
+    if account_filter:
+        values = values.filter(account_id=account_filter)
+    if category_filter:
+        values = values.filter(category_id=category_filter)
+    if period_filter:
+        date = datetime.now().date()
+        days_ago = date - timedelta(days=int(period_filter))
+        values = values.filter(date__range=(days_ago, date))
 
     return render(
         request,
