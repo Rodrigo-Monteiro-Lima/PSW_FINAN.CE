@@ -1,0 +1,44 @@
+{% extends 'bases/base.html' %}
+{% load static %}
+{% block 'head' %}
+
+    <link href="{% static 'perfil/css/home.css' %}" rel="stylesheet">
+    <link href="{% static 'perfil/css/gerenciar.css' %}" rel="stylesheet">
+    <link href="{% static 'extrato/css/view_extrato.css' %}" rel="stylesheet">
+
+{% endblock %}
+
+{% block 'body' %}
+
+    <div class="container">
+        <br>
+        <br>
+        <p class="fonte-destaque">Definir planejamento</p>
+        <div class="card">
+        
+            <table>
+                <tr>
+                    <th>category</th>
+                    <th>Valor</th>
+                    <th>Ação</th>
+                </tr>
+
+                {% for category in categories %}
+                    <tr class="linha">
+                        <td>{{category}}</td>
+                        <td><input type="number" class="form-control" value="{{category.planning_value}}"></td>
+                        <td><button style="width: 100%;" class="botao-secundario">Salvar</button></td>         
+                    </tr>
+                {% endfor %}
+                
+
+            </table>
+        
+
+        </div>
+    </div>
+
+
+
+
+{% endblock %}
