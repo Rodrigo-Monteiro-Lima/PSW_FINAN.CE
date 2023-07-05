@@ -54,7 +54,7 @@ def new_value(request):
         return redirect("/extrato/novo_valor")
 
 
-def views_statement(request):
+def view_statement(request):
     accounts = Account.objects.all()
     categories = Category.objects.all()
 
