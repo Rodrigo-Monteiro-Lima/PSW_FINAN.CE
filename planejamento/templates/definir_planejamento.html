@@ -41,9 +41,9 @@
     <script>
 
       function update_value(id){
-          value = document.getElementById('category-value-'+id).value
-          
-          fetch("/planejamento/update_valor_categoria/"+id, {
+          value = document.getElementById(`category-value-${id}`).value
+
+          fetch(`/planejamento/update_valor_categoria/${id}`, {
               method: 'POST',
               headers: {
                   "Content-Type": "application/json",
@@ -51,10 +51,10 @@
               },
               body: JSON.stringify({new_value: value})
               
-          }).then(function(result){
+          }).then((result) => {
               return result.json()
 
-          }).then(function(data){
+          }).then((data) => {
               console.log(data)
 
           })
