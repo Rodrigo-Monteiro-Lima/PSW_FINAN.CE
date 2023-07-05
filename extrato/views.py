@@ -1,9 +1,15 @@
 from datetime import datetime, timedelta
+from io import BytesIO
+import os
+from django.conf import settings
+from django.http import FileResponse
 from django.shortcuts import redirect, render
 from extrato.models import Values
 from perfil.models import Account, Category
 from django.contrib import messages
 from django.contrib.messages import constants
+from django.template.loader import render_to_string
+from weasyprint import HTML
 
 # Create your views here.
 
@@ -76,3 +82,22 @@ def view_statement(request):
         "view_extrato.html",
         {"values": values, "accounts": accounts, "categories": categories},
     )
+
+
+def export_pdf(request):
+    values = Values.objects.filter(date__month=datetime.now().month)
+    accounts = Account.objects.all()
+    categories = Category.objects.all()
+
+    path_template = os.path.join(settings.BASE_DIR, "templates/partials/extrato.html")
+    path_output = BytesIO()
+
+    template_render = render_to_string(
+        path_template,
+        {"values": values, "accounts": accounts, "categories": categories},
+    )
+    HTML(string=template_render).write_pdf(path_output)
+
+    path_output.seek(0)
+
+    return FileResponse(path_output, filename="extrato.pdf")
