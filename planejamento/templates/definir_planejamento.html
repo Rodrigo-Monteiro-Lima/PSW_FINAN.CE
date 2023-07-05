@@ -26,8 +26,8 @@
                 {% for category in categories %}
                     <tr class="linha">
                         <td>{{category}}</td>
-                        <td><input type="number" class="form-control" value="{{category.planning_value}}"></td>
-                        <td><button style="width: 100%;" class="botao-secundario">Salvar</button></td>         
+                        <td><input type="text" id="category-value-{{category.id}}" class="form-control" value="{{category.planning_value}}"></td>
+                        <td><button onclick="update_value({{category.id}})" style="width: 100%;" class="botao-secundario">Salvar</button></td>         
                     </tr>
                 {% endfor %}
                 
@@ -38,6 +38,30 @@
         </div>
     </div>
 
+    <script>
+
+      function update_value(id){
+          value = document.getElementById('category-value-'+id).value
+          
+          fetch("/planejamento/update_valor_categoria/"+id, {
+              method: 'POST',
+              headers: {
+                  "Content-Type": "application/json",
+                  
+              },
+              body: JSON.stringify({new_value: value})
+              
+          }).then(function(result){
+              return result.json()
+
+          }).then(function(data){
+              console.log(data)
+
+          })
+
+      }
+
+    </script>
 
 
 
