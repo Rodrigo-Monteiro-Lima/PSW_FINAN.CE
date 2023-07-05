@@ -21,16 +21,16 @@
         <div class="row">
 
             <div class="col-md-7">
-                <form action="" method="POST">{% csrf_token %}
+                <form action="{% url 'novo_valor' %}" method="POST">{% csrf_token %}
                     <div class="row">
                         <div class="col-md">
                             <label>Valor</label>
-                            <input name="valor" type="text" class="form-control">
+                            <input name="value" type="text" class="form-control">
                         </div>
 
                         <div class="col-md">
                             <label>Categoria</label>
-                            <select name="categoria" class="form-select">
+                            <select name="category" class="form-select">
                                 {% for category in categories %}
                                     <option value="{{ category.id }}">{{ category }}</option>
                                 {% endfor %}
@@ -39,17 +39,17 @@
                     </div>
                     <br>
                     <label>Descrição</label>
-                    <textarea name="descricao" class="form-control"></textarea>
+                    <textarea name="description" class="form-control"></textarea>
                     <br>
                     <div class="row">
                         <div class="col-md">
                             <label>Data</label>  
-                            <input name="data" type="date" class="form-control">
+                            <input name="date" type="date" class="form-control">
                         </div>
 
                         <div class="col-md">
                             <label>Conta</label>
-                            <select name="conta" class="form-select">
+                            <select name="account" class="form-select">
                                 {% for account in accounts %}
                                     <option value="{{ account.id }}">{{ account }}</option>
                                 {% endfor %}
@@ -57,8 +57,8 @@
                         </div>
                     </div>
                     <br>
-                    <input type="radio" name="tipo" value="E"> <label class="positivo">Entrada</label>
-                    <input type="radio" name="tipo" value="S"> <label class="negativo">Saída</label>
+                    <input type="radio" name="value_type" value="I"> <label class="positivo">Entrada</label>
+                    <input type="radio" name="value_type" value="O"> <label class="negativo">Saída</label>
                     <br>
                     <br>
                     <input type="submit" style="width:40%;" class="botao-principal">
