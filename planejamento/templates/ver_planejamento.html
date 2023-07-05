@@ -1,0 +1,42 @@
+{% extends 'bases/base.html' %}
+{% load static %}
+{% block 'head' %}
+
+    <link href="{% static 'perfil/css/home.css' %}" rel="stylesheet">
+    <link href="{% static 'perfil/css/gerenciar.css' %}" rel="stylesheet">
+    <link href="{% static 'extrato/css/view_extrato.css' %}" rel="stylesheet">
+
+{% endblock %}
+
+{% block 'body' %}
+
+    <div class="container">
+        <br>
+        <br>
+        <div class="row">
+            <div class="col-md-2 text-center">
+            </div>
+            <div class="col-md">
+               <div class="card">
+                    {% for category in categories %}
+                        <p>{{category}}</p>
+                        <div>
+                        <span style="float: left !important;">R$ {{category.total_spent}}</span>
+                        <span style="float: right !important;">R$ {{category.planning_value}}</span>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-striped bg-info" role="progressbar" style="width: {{category.calculate_percentage_spent_by_category}}%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <br>
+                    {% endfor %}
+
+                </div>
+            </div>
+            <div class="col-md-2 text-center">
+            </div>
+        </div>
+    </div>
+
+
+
+{% endblock %}

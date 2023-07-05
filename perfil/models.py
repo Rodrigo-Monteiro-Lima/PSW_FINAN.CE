@@ -1,4 +1,6 @@
+from datetime import datetime
 from django.db import models
+from .utils import sum_total_value
 
 # Create your models here.
 
@@ -10,6 +12,20 @@ class Category(models.Model):
 
     def __str__(self):
         return self.category
+
+    def total_spent(self):
+        from extrato.models import Values
+
+        values = (
+            Values.objects.filter(category__id=self.id)
+            .filter(date__month=datetime.now().month)
+            .filter(value_type="O")
+        )
+        total_value = sum_total_value(values, "value")
+        return total_value if total_value else 0
+
+    def calculate_percentage_spent_by_category(self):
+        return int((self.total_spent() * 100) / self.planning_value)
 
 
 class Account(models.Model):
