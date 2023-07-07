@@ -1,6 +1,8 @@
 from django.shortcuts import redirect, render
 from django.contrib import messages
 from django.contrib.messages import constants
+
+from extrato.models import Values
 from .models import Account, Category
 from .utils import sum_total_value
 
@@ -100,3 +102,22 @@ def update_category(request, id):
     category.save()
 
     return redirect("/perfil/gerenciar/")
+
+
+def dashboard(request):
+    data = {}
+    categories = Category.objects.all()
+
+    for category in categories:
+        total = 0
+        values = Values.objects.filter(category=category)
+        for value in values:
+            total = total + value.value
+
+        data[category.category] = total
+
+    return render(
+        request,
+        "dashboard.html",
+        {"labels": list(data.keys()), "values": list(data.values())},
+    )
