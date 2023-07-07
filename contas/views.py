@@ -1,6 +1,5 @@
 from datetime import datetime
 from django.shortcuts import render, redirect
-
 from perfil.models import Category
 from django.contrib import messages
 from django.contrib.messages import constants
@@ -71,3 +70,12 @@ def show_bills(request):
             "paid_bills_count": paid_bills.count(),
         },
     )
+
+
+def paid_bill(request, id):
+    bill = BillToPay.objects.get(id=id)
+    paid_bill = PaidBill(account=bill, payment_date=datetime.now())
+    paid_bill.save()
+
+    # messages.add_message(request, constants.SUCCESS, "Conta paga com sucesso")
+    return redirect("/contas/ver_contas")
