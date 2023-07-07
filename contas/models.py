@@ -17,5 +17,5 @@ class BillToPay(models.Model):
 
 
 class PaidBill(models.Model):
-    Account = models.ForeignKey(BillToPay, on_delete=models.DO_NOTHING)
+    account = models.ForeignKey(BillToPay, on_delete=models.DO_NOTHING)
     payment_date = models.DateField()
