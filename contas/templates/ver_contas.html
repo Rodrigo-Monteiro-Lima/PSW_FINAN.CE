@@ -114,11 +114,15 @@
                 </div>
 
             </div>
-
             <div class="col-md-4">
+              <h1>Relatório</h1>
+              <p class="fonte-destaque"><span style="color: red; margin-right: 10px;">Contas vencidas:</span> {{overdue_bills_count}}</p>
+              <p class="fonte-destaque" ><span style="color: #E96363; margin-right: 10px;">Próximas do vencimento:</span> {{bills_close_to_maturity_count}}</p>
+              <p class="fonte-destaque"><span style="margin-right: 10px;">Restantes: </span>{{remaining_count}}</p>
+              <p class="fonte-destaque"><span style="color: #69D2CD; margin-right: 10px;">Pagas:</span> {{paid_bills_count}}</p>
             </div>
-
         </div>
+
 
     </div>
 

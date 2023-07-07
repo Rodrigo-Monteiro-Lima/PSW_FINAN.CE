@@ -65,5 +65,9 @@ def show_bills(request):
             "overdue_bills": overdue_bills,
             "bills_close_to_maturity": bills_close_to_maturity,
             "remaining": remaining,
+            "overdue_bills_count": overdue_bills.count(),
+            "bills_close_to_maturity_count": bills_close_to_maturity.count(),
+            "remaining_count": remaining.count(),
+            "paid_bills_count": paid_bills.count(),
         },
     )
