@@ -1,10 +1,11 @@
+from datetime import datetime
 from django.shortcuts import redirect, render
 from django.contrib import messages
 from django.contrib.messages import constants
 
 from extrato.models import Values
 from .models import Account, Category
-from .utils import sum_total_value
+from .utils import sum_total_value, calculate_financial_balance
 
 # Create your views here.
 
@@ -12,10 +13,26 @@ from .utils import sum_total_value
 def home(request):
     accounts = Account.objects.all()
     total_value = sum_total_value(accounts, "value")
+    values = Values.objects.filter(date__month=datetime.now().month)
+    income = values.filter(value_type="I")
+    outcome = values.filter(value_type="O")
+    total_income = sum_total_value(income, "value")
+    total_outcome = sum_total_value(outcome, "value")
+
+    (
+        percent_essential_expenses,
+        percent_non_essential_expenses,
+    ) = calculate_financial_balance()
+
     context = {
         "accounts": accounts,
         "total_value": total_value,
+        "total_income": total_income,
+        "total_outcome": total_outcome,
+        "percent_essential_expenses": int(percent_essential_expenses),
+        "percent_non_essential_expenses": int(percent_non_essential_expenses),
     }
+
     return render(request, "home.html", context)
 
 
