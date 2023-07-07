@@ -2,6 +2,7 @@ from datetime import datetime
 from django.shortcuts import redirect, render
 from django.contrib import messages
 from django.contrib.messages import constants
+from contas.models import BillToPay, PaidBill
 
 from extrato.models import Values
 from .models import Account, Category
@@ -18,6 +19,25 @@ def home(request):
     outcome = values.filter(value_type="O")
     total_income = sum_total_value(income, "value")
     total_outcome = sum_total_value(outcome, "value")
+    categories = Category.objects.all()
+    total_planned = sum_total_value(categories, "planning_value")
+
+    CURRENT_MONTH = datetime.now().month
+    CURRENT_DAY = datetime.now().day
+
+    bills = BillToPay.objects.all()
+
+    paid_bills = PaidBill.objects.filter(payment_date__month=CURRENT_MONTH).values(
+        "account"
+    )
+
+    overdue_bills = bills.filter(payment_day__lt=CURRENT_DAY).exclude(id__in=paid_bills)
+
+    bills_close_to_maturity = (
+        bills.filter(payment_day__lte=CURRENT_DAY + 5)
+        .filter(payment_day__gte=CURRENT_DAY)
+        .exclude(id__in=paid_bills)
+    )
 
     (
         percent_essential_expenses,
@@ -31,6 +51,10 @@ def home(request):
         "total_outcome": total_outcome,
         "percent_essential_expenses": int(percent_essential_expenses),
         "percent_non_essential_expenses": int(percent_non_essential_expenses),
+        "overdue_bills_count": overdue_bills.count(),
+        "bills_close_to_maturity_count": bills_close_to_maturity.count(),
+        "total_planned": total_planned,
+        "total_left": total_planned - total_outcome,
     }
 
     return render(request, "home.html", context)
